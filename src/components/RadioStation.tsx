@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonButton, IonIcon } from '@ionic/react';
 import { play, pause, volumeHigh } from 'ionicons/icons';
+import { useRadioPlayer } from '../contexts/RadioPlayerContext';
 import './RadioStation.css';
 
 interface RadioStationProps {
@@ -10,79 +10,16 @@ interface RadioStationProps {
 }
 
 const RadioStation: React.FC<RadioStationProps> = ({ name, streamUrl, description }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const { currentStation, isPlaying, isLoading, playStation, pauseStation } = useRadioPlayer();
+  
+  const isCurrentStation = currentStation?.streamUrl === streamUrl;
+  const isCurrentlyPlaying = isCurrentStation && isPlaying;
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handlePlay = () => {
-      setIsPlaying(true);
-      setIsLoading(false);
-    };
-
-    const handlePlaying = () => {
-      setIsPlaying(true);
-      setIsLoading(false);
-    };
-
-    const handlePause = () => {
-      setIsPlaying(false);
-      setIsLoading(false);
-    };
-
-    const handleWaiting = () => {
-      setIsLoading(true);
-    };
-
-    const handleCanPlayThrough = () => {
-      setIsLoading(false);
-    };
-
-    const handleError = () => {
-      setIsLoading(false);
-      setIsPlaying(false);
-      console.error('Error loading radio stream');
-    };
-
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('playing', handlePlaying);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('waiting', handleWaiting);
-    audio.addEventListener('canplaythrough', handleCanPlayThrough);
-    audio.addEventListener('error', handleError);
-
-    return () => {
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('playing', handlePlaying);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('waiting', handleWaiting);
-      audio.removeEventListener('canplaythrough', handleCanPlayThrough);
-      audio.removeEventListener('error', handleError);
-    };
-  }, []);
-
-  const togglePlay = async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-      setIsLoading(false);
+  const togglePlay = () => {
+    if (isCurrentlyPlaying) {
+      pauseStation();
     } else {
-      try {
-        setIsLoading(true);
-        await audio.play();
-        setIsPlaying(true);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error playing audio:', error);
-        setIsLoading(false);
-        setIsPlaying(false);
-      }
+      playStation({ name, streamUrl, description });
     }
   };
 
@@ -94,18 +31,17 @@ const RadioStation: React.FC<RadioStationProps> = ({ name, streamUrl, descriptio
       <IonCardContent>
         {description && <p className="radio-description">{description}</p>}
         <div className="radio-player">
-          <audio ref={audioRef} src={streamUrl} preload="none" />
           <IonButton
             fill="solid"
             color="primary"
             onClick={togglePlay}
-            disabled={isLoading}
+            disabled={isCurrentStation && isLoading}
             className="play-button"
           >
-            <IonIcon icon={isPlaying ? pause : play} slot="start" />
-            {isLoading ? 'Loading...' : isPlaying ? 'Pause' : 'Play'}
+            <IonIcon icon={isCurrentlyPlaying ? pause : play} slot="start" />
+            {isCurrentStation && isLoading ? 'Loading...' : isCurrentlyPlaying ? 'Pause' : 'Play'}
           </IonButton>
-          {isPlaying && (
+          {isCurrentlyPlaying && (
             <IonIcon icon={volumeHigh} className="playing-indicator" />
           )}
         </div>

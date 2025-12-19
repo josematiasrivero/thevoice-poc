@@ -1,0 +1,50 @@
+.mini-player {
+  position: fixed;
+  bottom: 56px; /* Height of IonTabBar */
+  left: 0;
+  right: 0;
+  background: var(--ion-background-color);
+  border-top: 1px solid var(--ion-border-color);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mini-player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.mini-player-icon {
+  font-size: 24px;
+  color: var(--ion-color-primary);
+  flex-shrink: 0;
+}
+
+.mini-player-name {
+  font-size: 0.95em;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.mini-player-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .mini-player {
+    bottom: 56px;
+  }
+}
+
