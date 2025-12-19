@@ -1,0 +1,7 @@
+{
+  "name": "thevoice",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
