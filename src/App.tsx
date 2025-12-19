@@ -67,11 +67,11 @@ const App: React.FC = () => (
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
               <IonIcon aria-hidden="true" icon={radio} />
-              <IonLabel>Radio 1</IonLabel>
+              <IonLabel>Jazz & Blues</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab2" href="/tab2">
               <IonIcon aria-hidden="true" icon={radioOutline} />
-              <IonLabel>Radio 2</IonLabel>
+              <IonLabel>Electronic & Dance</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

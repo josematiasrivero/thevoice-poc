@@ -4,6 +4,7 @@ interface RadioStation {
   name: string;
   streamUrl: string;
   description?: string;
+  favicon?: string;
 }
 
 interface RadioPlayerContextType {

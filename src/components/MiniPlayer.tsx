@@ -21,7 +21,18 @@ const MiniPlayer: React.FC = () => {
   return (
     <div className="mini-player">
       <div className="mini-player-info">
-        <IonIcon icon={volumeHigh} className="mini-player-icon" />
+        {currentStation.favicon ? (
+          <img 
+            src={currentStation.favicon} 
+            alt={currentStation.name}
+            style={{ width: '32px', height: '32px', borderRadius: '6px', objectFit: 'cover', marginRight: '8px' }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        ) : (
+          <IonIcon icon={volumeHigh} className="mini-player-icon" />
+        )}
         <IonLabel className="mini-player-name">{currentStation.name}</IonLabel>
       </div>
       <IonButton

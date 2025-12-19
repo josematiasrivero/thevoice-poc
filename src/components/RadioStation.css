@@ -35,6 +35,30 @@
   line-height: 1.4;
 }
 
+.radio-info {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+.info-label {
+  color: var(--ion-color-medium);
+  font-weight: 600;
+}
+
+.info-value {
+  color: var(--ion-color-dark);
+}
+
 .radio-player {
   display: flex;
   align-items: center;

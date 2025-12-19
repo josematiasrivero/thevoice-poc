@@ -1,47 +1,35 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import RadioStation from '../components/RadioStation';
+import { allRadioStations } from '../data/radioStations';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {
-  const radioStations = [
-    {
-      name: 'Frisky Radio',
-      streamUrl: 'http://stream2.friskyradio.com:8000/frisky_mp3_hi',
-      description: 'Underground electronic music and exclusive DJ mixes'
-    },
-    {
-      name: 'Radio Swiss Classic',
-      streamUrl: 'http://stream.srg-ssr.ch/m/rsc_de/mp3_128',
-      description: 'Classical music from Switzerland'
-    },
-    {
-      name: 'Radio Swiss Pop',
-      streamUrl: 'http://stream.srg-ssr.ch/m/rsp/mp3_128',
-      description: 'Pop music from Switzerland'
-    },
-    {
-      name: 'Deep House Lounge',
-      streamUrl: 'http://162.244.80.106:9304/stream',
-      description: 'Deep house music with live DJ sets and mixes'
-    },
-    {
-      name: 'Chill Out Zone',
-      streamUrl: 'http://uk2.internet-radio.com:8000/stream',
-      description: 'Relaxing chillout and ambient music'
-    }
-  ];
+  // Filter stations for Electronic, Dance, Pop, Rock, and other genres
+  const radioStations = allRadioStations.filter(station => {
+    const tags = (station.tags || '').toLowerCase();
+    const name = station.name.toLowerCase();
+    const isJazzOrClassical = tags.includes('jazz') || 
+                             tags.includes('blues') || 
+                             tags.includes('classical') ||
+                             tags.includes('smooth jazz') ||
+                             name.includes('jazz') ||
+                             name.includes('blues') ||
+                             name.includes('classic');
+    
+    return !isJazzOrClassical; // Show everything else in Tab2
+  });
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Radio 2</IonTitle>
+          <IonTitle>Electronic & Dance</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Radio 2</IonTitle>
+            <IonTitle size="large">Electronic & Dance</IonTitle>
           </IonToolbar>
         </IonHeader>
         <div className="radio-container">
@@ -51,6 +39,9 @@ const Tab2: React.FC = () => {
               name={station.name}
               streamUrl={station.streamUrl}
               description={station.description}
+              favicon={station.favicon}
+              country={station.country}
+              tags={station.tags}
             />
           ))}
         </div>

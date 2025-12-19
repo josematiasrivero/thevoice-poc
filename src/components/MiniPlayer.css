@@ -3,8 +3,8 @@
   bottom: 56px; /* Height of IonTabBar */
   left: 0;
   right: 0;
-  background: var(--ion-background-color);
-  border-top: 1px solid var(--ion-border-color);
+  background: #f4f5f8;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding: 8px 16px;
   display: flex;
   align-items: center;
