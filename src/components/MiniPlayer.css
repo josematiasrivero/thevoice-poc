@@ -48,3 +48,8 @@
   }
 }
 
+/* iOS PWA specific styling - move miniplayer up 100px */
+.mini-player.ios-pwa {
+  bottom: calc(56px + 28px);
+}
+

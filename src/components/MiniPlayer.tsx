@@ -1,10 +1,24 @@
 import { IonButton, IonIcon, IonLabel } from '@ionic/react';
 import { play, pause, volumeHigh } from 'ionicons/icons';
 import { useRadioPlayer } from '../contexts/RadioPlayerContext';
+import { useEffect, useState } from 'react';
 import './MiniPlayer.css';
 
 const MiniPlayer: React.FC = () => {
   const { currentStation, isPlaying, isLoading, playStation, pauseStation } = useRadioPlayer();
+  const [isIOSPWA, setIsIOSPWA] = useState(false);
+
+  useEffect(() => {
+    // Check if running on iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // Check if running as PWA (standalone mode)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                        (window.navigator as any).standalone === true;
+    
+    setIsIOSPWA(isIOS && isStandalone);
+  }, []);
 
   if (!currentStation) {
     return null;
@@ -19,7 +33,7 @@ const MiniPlayer: React.FC = () => {
   };
 
   return (
-    <div className="mini-player">
+    <div className={`mini-player ${isIOSPWA ? 'ios-pwa' : ''}`}>
       <div className="mini-player-info">
         {currentStation.favicon ? (
           <img 
